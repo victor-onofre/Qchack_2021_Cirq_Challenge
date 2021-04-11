@@ -27,4 +27,38 @@ def matrix_to_sycamore_operations(
                 an empty list.
         .
     """
-    return NotImplemented, []
+
+    class Gate2(cirq.TwoQubitGate):
+        
+        def _unitary_(self):
+            return  matrix
+        
+        def __str__(self):
+            return 'ζ'
+        
+    class Gate1(cirq.SingleQubitGate):
+        
+        def _unitary_(self):
+            return  matrix
+        
+        def __str__(self):
+            return 'ζ'
+
+    
+    size = len(matrix)
+    
+    if size == 4: 
+        cnt2 = Gate2()
+        answer = cirq.google.ConvertToSycamoreGates().convert(cnt2(target_qubits[0],target_qubits[1]))
+        #print(cirq.google.ConvertToSycamoreGates().convert(cnt2(target_qubits[0],target_qubits[1])))
+        #circuit2 = cirq.Circuit(cirq.google.ConvertToSycamoreGates().convert(cnt2(target_qubits[0],target_qubits[1]) ) )
+        #print(circuit2)
+    
+    if size == 2: 
+        cnt1 = Gate1()
+        answer = cirq.google.ConvertToSycamoreGates().convert(cnt1(target_qubits[0]))
+        #print(cirq.google.ConvertToSycamoreGates().convert(cnt1(target_qubits[0]) ))
+        #circuit1 = cirq.Circuit(cirq.google.ConvertToSycamoreGates().convert(cnt1(target_qubits[0]) ) )
+        #print(circuit1)
+        
+    return (answer), []
